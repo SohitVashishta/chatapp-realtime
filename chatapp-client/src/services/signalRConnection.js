@@ -2,7 +2,7 @@
 import * as signalR from '@microsoft/signalr';
 
 const connection = new signalR.HubConnectionBuilder()
-  .withUrl("http://localhost:5090/chathub")
+  .withUrl("https://chatapp-realtime-50bf.onrender.com/chathub")
   .withAutomaticReconnect()
   .build();
 
