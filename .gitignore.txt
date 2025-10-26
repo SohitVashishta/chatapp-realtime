@@ -14,9 +14,6 @@ appsettings.Development.json
 wwwroot/uploads/
 
 # React
-chatapp-client/node_modules/
-chatapp-client/build/
-chatapp-client/.env
 
 # Logs / temp
 *.log

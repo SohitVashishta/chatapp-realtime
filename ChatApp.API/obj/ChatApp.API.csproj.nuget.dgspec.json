@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Project\\ChatApplication\\ChatApp.API\\ChatApp.API.csproj": {}
+    "D:\\Project\\ChatApplication\\chatapp-realtime\\ChatApp.API\\ChatApp.API.csproj": {}
   },
   "projects": {
-    "D:\\Project\\ChatApplication\\ChatApp.API\\ChatApp.API.csproj": {
+    "D:\\Project\\ChatApplication\\chatapp-realtime\\ChatApp.API\\ChatApp.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Project\\ChatApplication\\ChatApp.API\\ChatApp.API.csproj",
+        "projectUniqueName": "D:\\Project\\ChatApplication\\chatapp-realtime\\ChatApp.API\\ChatApp.API.csproj",
         "projectName": "ChatApp.API",
-        "projectPath": "D:\\Project\\ChatApplication\\ChatApp.API\\ChatApp.API.csproj",
+        "projectPath": "D:\\Project\\ChatApplication\\chatapp-realtime\\ChatApp.API\\ChatApp.API.csproj",
         "packagesPath": "C:\\Users\\sohit\\.nuget\\packages\\",
-        "outputPath": "D:\\Project\\ChatApplication\\ChatApp.API\\obj\\",
+        "outputPath": "D:\\Project\\ChatApplication\\chatapp-realtime\\ChatApp.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -63,23 +63,17 @@
               "target": "Package",
               "version": "[1.2.0, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
+            "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.10, )"
             },
-            "Microsoft.EntityFrameworkcore": {
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
-              "version": "[9.0.10, )"
-            },
-            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
-              "target": "Package",
-              "version": "[1.21.0, )"
+              "version": "[7.0.11, )"
             }
           },
           "imports": [
