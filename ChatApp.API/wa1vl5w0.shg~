@@ -1,0 +1,71 @@
+﻿using ChatApp.API.Data;
+using ChatApp.API.Hubs;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// ----------------------------
+// 1️⃣ Configure Services
+// ----------------------------
+
+// Optional: Add EF Core DbContext if you store chat messages
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+// Add Controllers (API endpoints)
+builder.Services.AddControllers();
+
+// Configure CORS for React frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")  // React app
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials(); // Required for SignalR
+    });
+});
+
+// Add SignalR with detailed errors (useful in dev)
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
+
+var app = builder.Build();
+
+// ----------------------------
+// 2️⃣ Configure Middleware
+// ----------------------------
+
+// Optional: redirect HTTP to HTTPS
+app.UseHttpsRedirection();
+
+app.UseRouting();
+
+// Enable CORS BEFORE endpoints
+app.UseCors("CorsPolicy");
+
+// Optional: authentication/authorization
+// app.UseAuthentication();
+// app.UseAuthorization();
+
+// ----------------------------
+// 3️⃣ Map Endpoints
+// ----------------------------
+
+// SignalR hub
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>("/chathub");
+
+    // API controllers
+    endpoints.MapControllers();
+});
+
+// ----------------------------
+// 4️⃣ Run App
+// ----------------------------
+app.Run();

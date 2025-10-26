@@ -1,0 +1,54 @@
+﻿using ChatApp.API.Data;
+using ChatApp.API.Models;
+using Microsoft.AspNetCore.SignalR;
+
+namespace ChatApp.API.Hubs
+{
+    public class ChatHub : Hub
+    {
+        private readonly AppDbContext _context;
+        private static Dictionary<string, int> connectedUsers = new();
+
+        public ChatHub(AppDbContext context) => _context = context;
+
+        public async Task Login(int userId)
+        {
+            connectedUsers[Context.ConnectionId] = userId;
+            await Clients.All.SendAsync("UserLoggedIn", userId);
+        }
+
+        public async Task SendMessage(int receiverId, string messageText, string messageType, string? fileName)
+        {
+            if (!connectedUsers.TryGetValue(Context.ConnectionId, out var senderId)) return;
+
+            var msg = new Message
+            {
+                SenderId = senderId,
+                ReceiverId = receiverId,
+                Text = messageType == "text" ? messageText : null,
+                FileName = fileName,
+                Type = messageType,
+                SentAt = DateTime.UtcNow
+            };
+
+            _context.Messages.Add(msg);
+            await _context.SaveChangesAsync();
+
+            var receiverConnection = connectedUsers.FirstOrDefault(x => x.Value == receiverId).Key;
+            if (!string.IsNullOrEmpty(receiverConnection))
+            {
+                await Clients.Client(receiverConnection)
+                    .SendAsync("ReceiveMessage", senderId, receiverId, messageText, messageType, fileName);
+            }
+
+            await Clients.Caller
+                .SendAsync("ReceiveMessage", senderId, receiverId, messageText, messageType, fileName);
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            connectedUsers.Remove(Context.ConnectionId);
+            await base.OnDisconnectedAsync(exception);
+        }
+    }
+}

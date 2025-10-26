@@ -1,0 +1,36 @@
+# .NET / Visual Studio
+.vs/
+bin/
+obj/
+Debug/
+Release/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ASP.NET Core
+appsettings.Development.json
+wwwroot/uploads/
+
+# React
+chatapp-client/node_modules/
+chatapp-client/build/
+chatapp-client/.env
+
+# Logs / temp
+*.log
+*.tmp
+*.bak
+*.swp
+*.lock
+Thumbs.db
+.DS_Store
+
+# Docker
+*.dockerfile
+Dockerfile.txt
+.dockerignore
+
+# GitHub Actions
+.github/workflows/

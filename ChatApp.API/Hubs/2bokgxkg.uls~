@@ -1,0 +1,52 @@
+﻿using ChatApp.API.Data;
+using ChatApp.API.Models;
+using Microsoft.AspNetCore.SignalR;
+
+namespace ChatApp.API.Hubs
+{
+    public class ChatHub : Hub
+    {
+        private readonly AppDbContext _context;
+        private static Dictionary<string, int> connectedUsers = new(); // connectionId -> userId
+
+        public ChatHub(AppDbContext context) => _context = context;
+
+        public async Task Login(int userId)
+        {
+            connectedUsers[Context.ConnectionId] = userId;
+            await Clients.All.SendAsync("UserLoggedIn", userId);
+        }
+
+        public async Task SendMessage(int receiverId, string message)
+        {
+            if (!connectedUsers.TryGetValue(Context.ConnectionId, out var senderId)) return;
+
+            var msg = new Message
+            {
+                SenderId = senderId,
+                ReceiverId = receiverId == 0 ? null : receiverId,
+                Text = message
+            };
+
+            _context.Messages.Add(msg);
+            await _context.SaveChangesAsync();
+
+            if (receiverId == 0)
+                await Clients.All.SendAsync("ReceiveMessage", senderId, message); // group
+            else
+            {
+                var receiverConnection = connectedUsers.FirstOrDefault(x => x.Value == receiverId).Key;
+                if (!string.IsNullOrEmpty(receiverConnection))
+                    await Clients.Client(receiverConnection).SendAsync("ReceiveMessage", senderId, message);
+
+                await Clients.Caller.SendAsync("ReceiveMessage", senderId, message);
+            }
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            connectedUsers.Remove(Context.ConnectionId);
+            await base.OnDisconnectedAsync(exception);
+        }
+    }
+}
