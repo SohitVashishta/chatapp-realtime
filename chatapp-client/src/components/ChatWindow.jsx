@@ -10,7 +10,7 @@ const ChatWindow = ({ currentUser, onLogout }) => {
     const [notifications, setNotifications] = useState({});
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const messagesEndRef = useRef(null);
-    const API_URL = process.env.REACT_APP_API_URL;
+    const API_URL = "https://chatapp-realtime-50bf.onrender.com";
 
     // Scroll to bottom on new messages
     useEffect(() => {
