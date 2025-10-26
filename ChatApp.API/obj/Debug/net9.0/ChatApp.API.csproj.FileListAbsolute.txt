@@ -312,3 +312,4 @@ D:\Project\ChatApplication\chatapp-realtime\ChatApp.API\obj\Debug\net9.0\refint\
 D:\Project\ChatApplication\chatapp-realtime\ChatApp.API\obj\Debug\net9.0\ChatApp.API.pdb
 D:\Project\ChatApplication\chatapp-realtime\ChatApp.API\obj\Debug\net9.0\ChatApp.API.genruntimeconfig.cache
 D:\Project\ChatApplication\chatapp-realtime\ChatApp.API\obj\Debug\net9.0\ref\ChatApp.API.dll
+D:\Project\ChatApplication\chatapp-realtime\ChatApp.API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
